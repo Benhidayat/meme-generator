@@ -27,6 +27,18 @@ const Main = () => {
         }))
     }
 
+    // get a new meme image
+    const getNewMemeImage = () => {
+
+        const random = Math.floor(Math.random() * allMemes.length);
+   
+        setMeme(prevMeme  => ({
+            ...prevMeme,
+            imgUrl: allMemes[random].url
+        }))
+     
+    }
+
   return (
     <main>
         <div className="form">
@@ -49,7 +61,7 @@ const Main = () => {
                     />
                 </label>
             </div>
-            <button onClick={}>Get a new meme image 🖼</button>
+            <button onClick={getNewMemeImage}>Get a new meme image 🖼</button>
         </div>
         <div className="meme">
             <img src={meme.imgUrl} alt="" />
