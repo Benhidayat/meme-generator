@@ -2,6 +2,31 @@ import React from 'react'
 import './Main.css';
 
 const Main = () => {
+    const [meme, setMeme] = React.useState({
+        imgUrl:'http://i.imgflip.com/1bij.jpg',
+        topText: 'One does not simply',
+        bottomText: 'Walk into Mordor'
+    })
+
+    const [allMemes, setAllMemes] = React.useState([]);
+
+    React.useEffect(() => {
+        fetch('https://api.imgflip.com/get_memes')
+            .then(res => res.json())
+            .then(data => setAllMemes(data.data.memes))
+            .catch(err => console.error(err));
+    },[]);
+
+
+    // change meme text
+    const handleChangeText = (e) => {
+        const {value, name} = e.currentTarget;
+        setMeme(prevMeme => ({
+            ...prevMeme,
+            [name]: value
+        }))
+    }
+
   return (
     <main>
         <div className="form">
@@ -11,6 +36,7 @@ const Main = () => {
                         type="text" 
                         placeholder='One does not simply'
                         name='topText'
+                        onChange={handleChangeText}
                     />
                 </label>
 
@@ -19,15 +45,16 @@ const Main = () => {
                         type="text" 
                         placeholder='Walk into Mordor'
                         name='bottomText'
+                        onChange={handleChangeText}
                     />
                 </label>
             </div>
-            <button>Get a new meme image 🖼</button>
+            <button onClick={}>Get a new meme image 🖼</button>
         </div>
         <div className="meme">
-            <img src="http://i.imgflip.com/1bij.jpg" alt="" />
-            <span className="top">One does not simply</span>
-            <span className="bottom">Walk into Mordor</span>
+            <img src={meme.imgUrl} alt="" />
+            <span className="top">{meme.topText}</span>
+            <span className="bottom">{meme.bottomText}</span>
         </div>
     </main>
   )
